@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Planes Overhead</title>
+  <style>
+    body {
+      background-image: url("{{ url_for('static', filename='planebackground.png') }}");
+      background-size: cover;       /* make it cover whole screen */
+      background-position: center;
+      background-attachment: fixed; /* stays in place on scroll */
+      color: white;                 /* default text color white */
+      font-family: Arial, sans-serif;
+      text-align: center;           /* center everything */
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 40px;
+      text-shadow: 2px 2px 4px #000; /* make white text readable */
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background: rgba(0, 0, 0, 0.5); /* semi-transparent black behind text */
+      margin: 5px auto;
+      padding: 10px;
+      width: fit-content;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>✈️ Enter address for planes in sight</h1>
+
+  <form method="POST" action="/">
+    <input
+      type="text"
+      name="address"
+      placeholder="Enter address"
+      size="50"
+      required
+    />
+    <button type="submit">Search</button>
+  </form>
+
+  {% if error %}
+    <p style="color:red">{{ error }}</p>
+  {% endif %}
+
+  {% if planes %}
+    <h2>Results{% if address %} near {{ address }}{% endif %}</h2>
+    <ul>
+      {% for p in planes %}
+        <li>
+          {{ p.flight }} — {{ p.altitude }} ft — {{ p.distance }} mi
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
